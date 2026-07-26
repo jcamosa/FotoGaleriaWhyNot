@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda - Galería de Fotos y Vídeos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="hero">
+        <h1>Nuestra Boda</h1>
+        <p>Recuerdos inolvidables</p>
+        <button id="download-all-btn" class="btn-primary">Descargar todo en alta calidad (.zip)</button>
+    </header>
+
+    <nav class="sections-nav">
+        <button class="nav-btn active" data-section="fotografa">Fotógrafa</button>
+        <button class="nav-btn" data-section="fotomaton">Fotomatón</button>
+        <button class="nav-btn" data-section="app">App</button>
+        <button class="nav-btn" data-section="invitados">Invitados</button>
+    </nav>
+
+    <main id="gallery-container" class="gallery-grid">
+        </main>
+
+    <div id="media-modal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content-wrapper" id="modal-content">
+            </div>
+        <a id="modal-download" class="btn-download" target="_blank">Descargar original</a>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
