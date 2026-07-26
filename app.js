@@ -1,4 +1,4 @@
-const SCRIPT_URL = "TU_URL_DE_WEB_APP_DE_APPS_SCRIPT";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGEtTB26LEUAvZCmOiJlSsSsWz8CZEGILAa52YwPicoHtUSDrecm72wSq2ee6G2rbS9Q/exec";
 let weddingData = {};
 let currentSection = "fotografa";
 
