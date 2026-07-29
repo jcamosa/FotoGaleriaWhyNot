@@ -19,7 +19,7 @@ function renderSection(sectionKey) {
     const items = weddingData[sectionKey] || [];
     
     if (items.length === 0) {
-        container.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No hay contenido en esta sección todavía.</p>";
+        container.innerHTML = "<p style='grid-column: 1/-1; text-align: center; padding: 2rem;'>No hay contenido en esta sección todavía.</p>";
         return;
     }
 
@@ -27,19 +27,23 @@ function renderSection(sectionKey) {
         const div = document.createElement("div");
         div.className = "gallery-item";
         
-        let mediaElement;
         if (item.type === "image") {
-            mediaElement = document.createElement("img");
-            // Usa la versión optimizada a 800px para una carga ultra rápida en móvil y PC
-            mediaElement.src = item.url;
-            mediaElement.loading = "lazy"; // Carga perezosa nativa del navegador
+            const img = document.createElement("img");
+            img.src = item.url;
+            img.loading = "lazy";
+            // Si una imagen falla al cargar en móvil, ocultamos el bloque para evitar errores visuales
+            img.onerror = () => { div.style.display = 'none'; };
+            div.appendChild(img);
         } else {
-            mediaElement = document.createElement("video");
-            mediaElement.src = item.url;
-            mediaElement.muted = true;
+            // Para los vídeos, creamos una vista previa segura optimizada para móviles
+            const videoPreview = document.createElement("div");
+            videoPreview.className = "video-preview-container";
+            videoPreview.innerHTML = `
+                <img src="${item.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Vídeo'">
+                <div class="play-icon">▶</div>
+            `;
+            div.appendChild(videoPreview);
         }
-
-        div.appendChild(mediaElement);
         
         // Evento al hacer clic para abrir el modal en grande
         div.addEventListener("click", () => openModal(item));
@@ -54,34 +58,41 @@ function openModal(item) {
     const downloadBtn = document.getElementById("modal-download");
     
     modalContent.innerHTML = "";
-    let content;
+    
     if (item.type === "image") {
-        content = document.createElement("img");
-        // Al ampliar en el modal, cargamos la imagen en su resolución original y máxima calidad
+        const content = document.createElement("img");
         content.src = item.originalUrl || item.url;
+        modalContent.appendChild(content);
     } else {
-        content = document.createElement("video");
+        const content = document.createElement("video");
         content.src = item.originalUrl || item.url;
         content.controls = true;
         content.autoplay = true;
+        content.playsInline = true; // Vital para móviles (evita que se abra en pantalla completa forzada en iPhone)
+        modalContent.appendChild(content);
     }
     
-    modalContent.appendChild(content);
-    downloadBtn.href = item.downloadUrl; // Enlace directo a la descarga sin pérdida
+    downloadBtn.href = item.downloadUrl; 
     modal.style.display = "flex";
 }
 
 // Cerrar modal al hacer clic en la "X"
 document.querySelector(".close-modal").addEventListener("click", () => {
     document.getElementById("media-modal").style.display = "none";
+    stopVideos();
 });
 
-// Cerrar modal también si se hace clic fuera del contenido
+// Cerrar modal al hacer clic fuera del contenido
 document.getElementById("media-modal").addEventListener("click", (e) => {
     if (e.target.id === "media-modal") {
         document.getElementById("media-modal").style.display = "none";
+        stopVideos();
     }
 });
+
+function stopVideos() {
+    document.querySelectorAll("#modal-content video").forEach(v => v.pause());
+}
 
 // Cambiar de sección mediante pestañas
 document.querySelectorAll(".nav-btn").forEach(btn => {
@@ -93,7 +104,7 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
     });
 });
 
-// Botón de descarga general (redirige a la carpeta raíz o de selección)
+// Botón de descarga general
 document.getElementById("download-all-btn").addEventListener("click", () => {
     window.open("https://drive.google.com/drive/folders/1FqfWkqI71zRTqC4HkKRYWE39hkDtLecn", "_blank");
 });
