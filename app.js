@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyp8BeuxuGXhtje9A2TTIfMFH9gnRv40M4Vb129SBiIxbs92tRli1LRe3zQkOkPW9Z81A/exec"; // Asegúrate de tener tu URL de Apps Script aquí
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyQaIajMU-WVWgnX5TYaFEB8ytdj38u8AhEOlMxDk6SAPAvfes8kbowB9HPIRbSH63D4Q/exec"; 
 let weddingData = {};
 let currentSection = "fotografa";
 
@@ -11,7 +11,7 @@ async function loadData() {
         renderSection(currentSection);
     } catch (error) {
         console.error("Error al cargar los archivos:", error);
-        loader.innerHTML = "<p>Error al conectar con la galería. Comprueba la conexión.</p>";
+        loader.innerHTML = "<p>Error al conectar con la galería.</p>";
     }
 }
 
@@ -31,10 +31,14 @@ function renderSection(sectionKey) {
         div.className = "gallery-item";
         
         const mediaElement = document.createElement("img");
-        // PRECARGA EN BAJA CALIDAD: Usamos `=s400` para que la miniatura pese poquísimo y cargue instantánea al hacer scroll
-        mediaElement.src = item.lowQualityUrl || item.url;
+        mediaElement.src = item.lowQualityUrl;
         mediaElement.loading = "lazy";
         
+        // Manejador de errores por si algún archivo tarda en responder
+        mediaElement.onerror = () => {
+            mediaElement.style.opacity = '0.3';
+        };
+
         div.appendChild(mediaElement);
 
         if (item.type === "video") {
@@ -44,9 +48,7 @@ function renderSection(sectionKey) {
             div.appendChild(badge);
         }
         
-        // Al hacer clic, abre el modal y carga la máxima calidad original
         div.addEventListener("click", () => openModal(item));
-        
         container.appendChild(div);
     });
 }
@@ -60,12 +62,11 @@ function openModal(item) {
     
     if (item.type === "image") {
         const content = document.createElement("img");
-        // AQUÍ SE CARGA LA MÁXIMA CALIDAD SOLO AL PINCHAR
-        content.src = item.originalUrl || item.url;
+        content.src = item.originalUrl;
         modalContent.appendChild(content);
     } else {
         const content = document.createElement("video");
-        content.src = item.originalUrl || item.url;
+        content.src = item.originalUrl;
         content.controls = true;
         content.autoplay = true;
         content.playsInline = true;
@@ -76,7 +77,6 @@ function openModal(item) {
     modal.style.display = "flex";
 }
 
-// Cerrar modal
 document.querySelector(".close-modal").addEventListener("click", () => {
     document.getElementById("media-modal").style.display = "none";
     stopVideos();
@@ -93,7 +93,6 @@ function stopVideos() {
     document.querySelectorAll("#modal-content video").forEach(v => v.pause());
 }
 
-// Cambio de pestañas
 document.querySelectorAll(".nav-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
         document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
@@ -103,7 +102,6 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
     });
 });
 
-// Botón de descarga general
 document.getElementById("download-all-btn").addEventListener("click", () => {
     window.open("https://drive.google.com/drive/folders/1FqfWkqI71zRTqC4HkKRYWE39hkDtLecn", "_blank");
 });
