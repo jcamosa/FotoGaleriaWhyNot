@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwb5KS2vddPydPb2h4IB5glzzBh7khR6CLs-cjdy2ywsFCZ37Kwr-gmrupqh15Z98MI/exec"; // Asegúrate de tener tu URL de Apps Script aquí
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyp8BeuxuGXhtje9A2TTIfMFH9gnRv40M4Vb129SBiIxbs92tRli1LRe3zQkOkPW9Z81A/exec"; // Asegúrate de tener tu URL de Apps Script aquí
 let weddingData = {};
 let currentSection = "fotografa";
 
