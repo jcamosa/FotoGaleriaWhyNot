@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boda - Galería de Fotos y Vídeos</title>
+    <title>Nuestra Boda — Galerías</title>
+    <!-- Google Fonts para una tipografía de categoría profesional -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="hero">
-        <h1>Nuestra Boda</h1>
-        <p>Recuerdos inolvidables</p>
-        <button id="download-all-btn" class="btn-primary">Descargar todo en alta calidad (.zip)</button>
+    <!-- Cabecera Estilo Estudio Fotográfico -->
+    <header class="wedding-header">
+        <span class="subtitle">Nuestra Boda</span>
+        <h1>Recuerdos Inolvidables</h1>
+        <button id="download-all-btn" class="btn-outline">Descargar todo en alta calidad (.zip)</button>
     </header>
 
+    <!-- Pestañas de Secciones Minimalistas -->
     <nav class="sections-nav">
         <button class="nav-btn active" data-section="fotografa">Fotógrafa</button>
         <button class="nav-btn" data-section="fotomaton">Fotomatón</button>
@@ -21,14 +25,27 @@
         <button class="nav-btn" data-section="invitados">Invitados</button>
     </nav>
 
+    <!-- Galería Estilo Grid / Masonry Profesional -->
     <main id="gallery-container" class="gallery-grid">
-        </main>
+        <!-- Contenido dinámico -->
+    </main>
 
+    <!-- Pantalla de Carga / Spinner inicial -->
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+        <p>Cargando galería...</p>
+    </div>
+
+    <!-- Modal de Visualización a Alta Calidad (Lightbox) -->
     <div id="media-modal" class="modal">
-        <span class="close-modal">&times;</span>
+        <button class="close-modal">&times;</button>
         <div class="modal-content-wrapper" id="modal-content">
-            </div>
-        <a id="modal-download" class="btn-download" target="_blank">Descargar original</a>
+            <!-- Imagen/Vídeo HD -->
+        </div>
+        <div class="modal-footer">
+            <span id="modal-counter"></span>
+            <a id="modal-download" class="btn-download-hd" target="_blank" download>Descargar original sin pérdida</a>
+        </div>
     </div>
 
     <script src="app.js"></script>
