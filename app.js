@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGEtTB26LEUAvZCmOiJlSsSsWz8CZEGILAa52YwPicoHtUSDrecm72wSq2ee6G2rbS9Q/exec";
+const SCRIPT_URL = "PEG_A_AQUI_TU_URL_DE_APPS_SCRIPT"; // Asegúrate de tener tu URL de Apps Script aquí
 let weddingData = {};
 let currentSection = "fotografa";
 
@@ -30,8 +30,9 @@ function renderSection(sectionKey) {
         let mediaElement;
         if (item.type === "image") {
             mediaElement = document.createElement("img");
+            // Usa la versión optimizada a 800px para una carga ultra rápida en móvil y PC
             mediaElement.src = item.url;
-            mediaElement.loading = "lazy";
+            mediaElement.loading = "lazy"; // Carga perezosa nativa del navegador
         } else {
             mediaElement = document.createElement("video");
             mediaElement.src = item.url;
@@ -40,7 +41,7 @@ function renderSection(sectionKey) {
 
         div.appendChild(mediaElement);
         
-        // Evento al hacer clic (en móvil o escritorio) abre el modal en grande
+        // Evento al hacer clic para abrir el modal en grande
         div.addEventListener("click", () => openModal(item));
         
         container.appendChild(div);
@@ -56,22 +57,30 @@ function openModal(item) {
     let content;
     if (item.type === "image") {
         content = document.createElement("img");
-        content.src = item.url;
+        // Al ampliar en el modal, cargamos la imagen en su resolución original y máxima calidad
+        content.src = item.originalUrl || item.url;
     } else {
         content = document.createElement("video");
-        content.src = item.url;
+        content.src = item.originalUrl || item.url;
         content.controls = true;
         content.autoplay = true;
     }
     
     modalContent.appendChild(content);
-    downloadBtn.href = item.downloadUrl; // Enlace directo a la máxima calidad de Drive
+    downloadBtn.href = item.downloadUrl; // Enlace directo a la descarga sin pérdida
     modal.style.display = "flex";
 }
 
-// Cerrar modal
+// Cerrar modal al hacer clic en la "X"
 document.querySelector(".close-modal").addEventListener("click", () => {
     document.getElementById("media-modal").style.display = "none";
+});
+
+// Cerrar modal también si se hace clic fuera del contenido
+document.getElementById("media-modal").addEventListener("click", (e) => {
+    if (e.target.id === "media-modal") {
+        document.getElementById("media-modal").style.display = "none";
+    }
 });
 
 // Cambiar de sección mediante pestañas
@@ -84,9 +93,9 @@ document.querySelectorAll(".nav-btn").forEach(btn => {
     });
 });
 
-// Botón de descarga general (comprimido o redirección a carpeta)
+// Botón de descarga general (redirige a la carpeta raíz o de selección)
 document.getElementById("download-all-btn").addEventListener("click", () => {
-    window.open("https://drive.google.com/drive/folders/TU_ID_DE_CARPETA_RAIZ", "_blank");
+    window.open("https://drive.google.com/drive/folders/1FqfWkqI71zRTqC4HkKRYWE39hkDtLecn", "_blank");
 });
 
 loadData();
