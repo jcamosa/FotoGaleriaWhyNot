@@ -3,12 +3,15 @@ let weddingData = {};
 let currentSection = "fotografa";
 
 async function loadData() {
+    const loader = document.getElementById("loader");
     try {
         const response = await fetch(SCRIPT_URL);
         weddingData = await response.json();
+        loader.style.display = "none";
         renderSection(currentSection);
     } catch (error) {
-        console.error("Error al cargar los archivos de Google Drive:", error);
+        console.error("Error al cargar los archivos:", error);
+        loader.innerHTML = "<p>Error al conectar con la galería. Comprueba la conexión.</p>";
     }
 }
 
@@ -19,7 +22,7 @@ function renderSection(sectionKey) {
     const items = weddingData[sectionKey] || [];
     
     if (items.length === 0) {
-        container.innerHTML = "<p style='grid-column: 1/-1; text-align: center; padding: 2rem;'>No hay contenido en esta sección todavía.</p>";
+        container.innerHTML = "<p style='grid-column: 1/-1; text-align: center; padding: 4rem; color: #777;'>No hay contenido en esta sección todavía.</p>";
         return;
     }
 
@@ -27,25 +30,21 @@ function renderSection(sectionKey) {
         const div = document.createElement("div");
         div.className = "gallery-item";
         
-        if (item.type === "image") {
-            const img = document.createElement("img");
-            img.src = item.url;
-            img.loading = "lazy";
-            // Si una imagen falla al cargar en móvil, ocultamos el bloque para evitar errores visuales
-            img.onerror = () => { div.style.display = 'none'; };
-            div.appendChild(img);
-        } else {
-            // Para los vídeos, creamos una vista previa segura optimizada para móviles
-            const videoPreview = document.createElement("div");
-            videoPreview.className = "video-preview-container";
-            videoPreview.innerHTML = `
-                <img src="${item.url}" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Vídeo'">
-                <div class="play-icon">▶</div>
-            `;
-            div.appendChild(videoPreview);
+        const mediaElement = document.createElement("img");
+        // PRECARGA EN BAJA CALIDAD: Usamos `=s400` para que la miniatura pese poquísimo y cargue instantánea al hacer scroll
+        mediaElement.src = item.lowQualityUrl || item.url;
+        mediaElement.loading = "lazy";
+        
+        div.appendChild(mediaElement);
+
+        if (item.type === "video") {
+            const badge = document.createElement("div");
+            badge.className = "video-badge";
+            badge.innerText = "▶ Vídeo";
+            div.appendChild(badge);
         }
         
-        // Evento al hacer clic para abrir el modal en grande
+        // Al hacer clic, abre el modal y carga la máxima calidad original
         div.addEventListener("click", () => openModal(item));
         
         container.appendChild(div);
@@ -61,6 +60,7 @@ function openModal(item) {
     
     if (item.type === "image") {
         const content = document.createElement("img");
+        // AQUÍ SE CARGA LA MÁXIMA CALIDAD SOLO AL PINCHAR
         content.src = item.originalUrl || item.url;
         modalContent.appendChild(content);
     } else {
@@ -68,21 +68,20 @@ function openModal(item) {
         content.src = item.originalUrl || item.url;
         content.controls = true;
         content.autoplay = true;
-        content.playsInline = true; // Vital para móviles (evita que se abra en pantalla completa forzada en iPhone)
+        content.playsInline = true;
         modalContent.appendChild(content);
     }
     
-    downloadBtn.href = item.downloadUrl; 
+    downloadBtn.href = item.downloadUrl;
     modal.style.display = "flex";
 }
 
-// Cerrar modal al hacer clic en la "X"
+// Cerrar modal
 document.querySelector(".close-modal").addEventListener("click", () => {
     document.getElementById("media-modal").style.display = "none";
     stopVideos();
 });
 
-// Cerrar modal al hacer clic fuera del contenido
 document.getElementById("media-modal").addEventListener("click", (e) => {
     if (e.target.id === "media-modal") {
         document.getElementById("media-modal").style.display = "none";
@@ -94,7 +93,7 @@ function stopVideos() {
     document.querySelectorAll("#modal-content video").forEach(v => v.pause());
 }
 
-// Cambiar de sección mediante pestañas
+// Cambio de pestañas
 document.querySelectorAll(".nav-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
         document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
