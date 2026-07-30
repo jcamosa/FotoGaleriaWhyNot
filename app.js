@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqhIMTL-DEHXCXAb3lxa0MXtHkmFyGi0Vby2nC5iXdIUr2xCeFRlEtbZWkVX_EB99YRg/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqhIMTL-DEHXCXAb3lxa0MXtHkmFyGi0Vby2nC5iXdIUr2xCeFRlEtbZWkVX_EB99YRg/exec";  
 let weddingData = {};
 let currentSection = "fotografa";
 
@@ -6,12 +6,20 @@ async function loadData() {
     const loader = document.getElementById("loader");
     try {
         const response = await fetch(SCRIPT_URL);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         weddingData = await response.json();
-        loader.style.display = "none";
+        
+        if (loader) loader.style.display = "none";
         renderSection(currentSection);
     } catch (error) {
-        console.error("Error al cargar los archivos:", error);
-        loader.innerHTML = "<p>Error al conectar con la galería.</p>";
+        console.error("Detalle del error:", error);
+        const container = document.getElementById("gallery-container");
+        if (loader) loader.style.display = "none";
+        container.innerHTML = `<p style='grid-column: 1/-1; text-align: center; padding: 4rem; color: #d9534f;'>Error al conectar con la galería. Comprueba que el Apps Script esté implementado como 'Cualquier usuario'.</p>`;
     }
 }
 
@@ -31,12 +39,12 @@ function renderSection(sectionKey) {
         div.className = "gallery-item";
         
         const mediaElement = document.createElement("img");
+        // Usamos el endpoint de miniaturas oficial y seguro de Google Drive
         mediaElement.src = item.lowQualityUrl;
         mediaElement.loading = "lazy";
         
-        // Manejador de errores por si algún archivo tarda en responder
         mediaElement.onerror = () => {
-            mediaElement.style.opacity = '0.3';
+            mediaElement.style.opacity = '0.2';
         };
 
         div.appendChild(mediaElement);
