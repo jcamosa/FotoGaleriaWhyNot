@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqhIMTL-DEHXCXAb3lxa0MXtHkmFyGi0Vby2nC5iXdIUr2xCeFRlEtbZWkVX_EB99YRg/exec";  
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyLhaN-uVWdD1S0TAiFSij5Z6iPW7K7NeEo2fHHQJd8gStnjZiNkmDnEiKdKvdifllGWg/exec";  
 let weddingData = {};
 let currentSection = "fotografa";
 
