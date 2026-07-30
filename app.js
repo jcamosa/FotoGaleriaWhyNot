@@ -1,11 +1,17 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_GCCj0TNzcPQy1VOxyjxo76BAS5Pn2jNok6JBNV6nxYbTr13g3atUzIxDNipYbEHxWQ/exec";  
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwQbEyziVIIEecG-XC1H6SjXv9U4AUS6jWTJ45ucumdEQVgSOgroNdT-sSHycbZbkm7HA/exec"; 
 let weddingData = {};
 let currentSection = "fotografa";
 
 async function loadData() {
     const loader = document.getElementById("loader");
+    const container = document.getElementById("gallery-container");
+    
     try {
-        const response = await fetch(SCRIPT_URL);
+        // Usamos mode: 'cors' y cabeceras estándar
+        const response = await fetch(SCRIPT_URL, {
+            method: 'GET',
+            mode: 'cors'
+        });
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -16,11 +22,29 @@ async function loadData() {
         if (loader) loader.style.display = "none";
         renderSection(currentSection);
     } catch (error) {
-        console.error("Detalle del error:", error);
-        const container = document.getElementById("gallery-container");
-        if (loader) loader.style.display = "none";
-        container.innerHTML = `<p style='grid-column: 1/-1; text-align: center; padding: 4rem; color: #d9534f;'>Error al conectar con la galería. Comprueba que el Apps Script esté implementado como 'Cualquier usuario'.</p>`;
+        console.error("Error de conexión:", error);
+        
+        // Plan B: Si el navegador bloquea el fetch directo por políticas de Google, 
+        // cargamos un mensaje claro o usamos una alternativa JSONP automática
+        fallbackJsonpLoad(loader, container);
     }
+}
+
+// Plan de respaldo automático mediante JSONP si el fetch directo falla
+function fallbackJsonpLoad(loader, container) {
+    window.handleWeddingData = function(data) {
+        weddingData = data;
+        if (loader) loader.style.display = "none";
+        renderSection(currentSection);
+    };
+
+    const script = document.createElement("script");
+    script.src = `${SCRIPT_URL}?callback=handleWeddingData`;
+    script.onerror = function() {
+        if (loader) loader.style.display = "none";
+        container.innerHTML = `<p style='grid-column: 1/-1; text-align: center; padding: 4rem; color: #d9534f;'>No se ha podido conectar con Google Drive. Comprueba que la URL del Apps Script sea correcta y tenga permisos públicos.</p>`;
+    };
+    document.body.appendChild(script);
 }
 
 function renderSection(sectionKey) {
@@ -39,7 +63,6 @@ function renderSection(sectionKey) {
         div.className = "gallery-item";
         
         const mediaElement = document.createElement("img");
-        // Usamos el endpoint de miniaturas oficial y seguro de Google Drive
         mediaElement.src = item.lowQualityUrl;
         mediaElement.loading = "lazy";
         
