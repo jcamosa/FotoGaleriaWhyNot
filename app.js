@@ -1,4 +1,4 @@
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzssT4UDyfFXvh0bi3XqxpHlNvQ2mLf9nZNSEpkFGhEDAwboANCNkVEYEseKWcCEsvfxg/exec"; 
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzxz1Xw8ANtJIngLNgvTpdKYutI8BEYC0Nuvpsc-0-ga8sOw4YJuW5RZvjCDdWnb-8gwA/exec"; 
 let weddingData = {};
 let currentSection = "fotografa";
 
@@ -7,11 +7,7 @@ async function loadData() {
     const container = document.getElementById("gallery-container");
     
     try {
-        // Usamos mode: 'cors' y cabeceras estándar
-        const response = await fetch(SCRIPT_URL, {
-            method: 'GET',
-            mode: 'cors'
-        });
+        const response = await fetch(SCRIPT_URL);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -22,29 +18,10 @@ async function loadData() {
         if (loader) loader.style.display = "none";
         renderSection(currentSection);
     } catch (error) {
-        console.error("Error de conexión:", error);
-        
-        // Plan B: Si el navegador bloquea el fetch directo por políticas de Google, 
-        // cargamos un mensaje claro o usamos una alternativa JSONP automática
-        fallbackJsonpLoad(loader, container);
+        console.error("Error al cargar la galería:", error);
+        if (loader) loader.style.display = "none";
+        container.innerHTML = `<p style='grid-column: 1/-1; text-align: center; padding: 4rem; color: #d9534f;'>Error al conectar con la galería. Comprueba que el Apps Script tenga acceso para 'Cualquier usuario'.</p>`;
     }
-}
-
-// Plan de respaldo automático mediante JSONP si el fetch directo falla
-function fallbackJsonpLoad(loader, container) {
-    window.handleWeddingData = function(data) {
-        weddingData = data;
-        if (loader) loader.style.display = "none";
-        renderSection(currentSection);
-    };
-
-    const script = document.createElement("script");
-    script.src = `${SCRIPT_URL}?callback=handleWeddingData`;
-    script.onerror = function() {
-        if (loader) loader.style.display = "none";
-        container.innerHTML = `<p style='grid-column: 1/-1; text-align: center; padding: 4rem; color: #d9534f;'>No se ha podido conectar con Google Drive. Comprueba que la URL del Apps Script sea correcta y tenga permisos públicos.</p>`;
-    };
-    document.body.appendChild(script);
 }
 
 function renderSection(sectionKey) {
