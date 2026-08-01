@@ -175,7 +175,7 @@ body {
     background-color: #3f51b5;
 }
 
-/* Cuadrícula adaptativa: en móviles muestra fotos más pequeñas para evitar scroll excesivo */
+/* Cuadrícula adaptativa para móviles (fotos más pequeñas para evitar scroll) */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -184,8 +184,8 @@ body {
 
 @media (max-width: 768px) {
     .gallery-grid {
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas en móviles para fotos compactas */
-        gap: 8px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
     }
     .hero {
         height: 250px;
@@ -228,7 +228,7 @@ body {
     padding: 2rem;
 }
 
-/* Lightbox con Slideshow */
+/* Lightbox con Controles de Navegación */
 .lightbox {
     display: none;
     position: fixed;
@@ -237,7 +237,7 @@ body {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.95);
     align-items: center;
     justify-content: center;
     padding: 20px;
@@ -248,7 +248,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    max-width: 90%;
+    max-width: 85%;
     max-height: 90vh;
 }
 
@@ -257,6 +257,7 @@ body {
     max-height: 70vh;
     border-radius: 4px;
     box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    object-fit: contain;
 }
 
 .lightbox-footer {
@@ -291,6 +292,38 @@ body {
     background-color: #3f51b5;
 }
 
+/* Flechas de navegación izquierda/derecha */
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 15px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s;
+    z-index: 1002;
+}
+
+.nav-arrow:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.prev-arrow { left: 20px; }
+.next-arrow { right: 20px; }
+
+@media (max-width: 768px) {
+    .nav-arrow {
+        padding: 10px 14px;
+        font-size: 20px;
+    }
+    .prev-arrow { left: 5px; }
+    .next-arrow { right: 5px; }
+}
+
 .close {
     position: absolute;
     top: 20px;
@@ -299,5 +332,5 @@ body {
     font-size: 40px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 1003;
 }
