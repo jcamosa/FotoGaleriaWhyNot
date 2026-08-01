@@ -144,7 +144,13 @@ body {
     margin-bottom: 0;
 }
 
-.download-btn {
+.tab-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.download-btn, .slideshow-btn {
     background-color: var(--primary-color);
     color: white;
     padding: 8px 16px;
@@ -152,18 +158,41 @@ body {
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
+    border: none;
+    cursor: pointer;
     transition: background 0.3s ease;
+}
+
+.slideshow-btn {
+    background-color: #5c6bc0;
 }
 
 .download-btn:hover {
     background-color: var(--accent-color);
-    color: #fff;
 }
 
+.slideshow-btn:hover {
+    background-color: #3f51b5;
+}
+
+/* Cuadrícula adaptativa: en móviles muestra fotos más pequeñas para evitar scroll excesivo */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas en móviles para fotos compactas */
+        gap: 8px;
+    }
+    .hero {
+        height: 250px;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
 }
 
 .gallery-item {
@@ -199,7 +228,7 @@ body {
     padding: 2rem;
 }
 
-/* Lightbox Mejorado con Botón de Descarga */
+/* Lightbox con Slideshow */
 .lightbox {
     display: none;
     position: fixed;
@@ -225,25 +254,41 @@ body {
 
 .lightbox img {
     max-width: 100%;
-    max-height: 75vh;
+    max-height: 70vh;
     border-radius: 4px;
     box-shadow: 0 0 25px rgba(0,0,0,0.5);
 }
 
-.lightbox-download-btn {
+.lightbox-footer {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.lightbox-download-btn, .lightbox-control-btn {
     background-color: var(--accent-color);
     color: white;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 4px;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    letter-spacing: 1px;
+    border: none;
+    cursor: pointer;
     transition: background 0.3s ease;
+}
+
+.lightbox-control-btn {
+    background-color: #5c6bc0;
 }
 
 .lightbox-download-btn:hover {
     background-color: #c19b2e;
+}
+
+.lightbox-control-btn:hover {
+    background-color: #3f51b5;
 }
 
 .close {
