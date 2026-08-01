@@ -8,9 +8,14 @@
 </head>
 <body>
 
+    <!-- Cabecera con imagen de fondo (header.jpg) -->
     <header class="hero">
-        <h1>Galería de Fotos - Why Not</h1>
-        <p>Recuerdos inolvidables de nuestro gran día</p>
+        <div class="hero-bg" style="background-image: url('header.jpg');"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Galería Why Not</h1>
+            <p>Nuestros mejores momentos juntos</p>
+        </div>
     </header>
 
     <main class="container">
@@ -23,8 +28,8 @@
         </div>
 
         <!-- Secciones / Contenido de las pestañas -->
-        <!-- NOTA: Reemplaza las URLs de las imágenes con las rutas de tus fotos o enlaces directos -->
         
+        <!-- Pestaña 1: Invitados -->
         <section id="invitados" class="tab-content active">
             <h2>Invitados</h2>
             <div class="gallery-grid">
@@ -34,10 +39,10 @@
                 <div class="gallery-item" onclick="openLightbox(this)">
                     <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Boda Invitados 2">
                 </div>
-                <!-- Añade más elementos aquí -->
             </div>
         </section>
 
+        <!-- Pestaña 2: Fotomatón -->
         <section id="fotomaton" class="tab-content">
             <h2>Fotomatón</h2>
             <div class="gallery-grid">
@@ -47,6 +52,7 @@
             </div>
         </section>
 
+        <!-- Pestaña 3: Fotógrafa -->
         <section id="fotografa" class="tab-content">
             <h2>Fotógrafa Oficial</h2>
             <div class="gallery-grid">
@@ -56,6 +62,7 @@
             </div>
         </section>
 
+        <!-- Pestaña 4: FotosApp -->
         <section id="fotosapp" class="tab-content">
             <h2>FotosApp</h2>
             <div class="gallery-grid">
