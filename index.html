@@ -3,51 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuestra Boda — Galerías</title>
-    <!-- Google Fonts para una tipografía de categoría profesional -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <title>Foto Galería - Why Not</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Cabecera Estilo Estudio Fotográfico -->
-    <header class="wedding-header">
-        <span class="subtitle">Nuestra Boda</span>
-        <h1>Recuerdos Inolvidables</h1>
-        <button id="download-all-btn" class="btn-outline">Descargar todo en alta calidad (.zip)</button>
+    <header class="hero">
+        <h1>Galería de Fotos - Why Not</h1>
+        <p>Recuerdos inolvidables de nuestro gran día</p>
     </header>
 
-    <!-- Pestañas de Secciones Minimalistas -->
-    <nav class="sections-nav">
-        <button class="nav-btn active" data-section="fotografa">Fotógrafa</button>
-        <button class="nav-btn" data-section="fotomaton">Fotomatón</button>
-        <button class="nav-btn" data-section="app">App</button>
-        <button class="nav-btn" data-section="invitados">Invitados</button>
-    </nav>
+    <main class="container">
+        <!-- Pestañas de navegación -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('invitados')">Invitados</button>
+            <button class="tab-btn" onclick="switchTab('fotomaton')">Fotomatón</button>
+            <button class="tab-btn" onclick="switchTab('fotografa')">Fotógrafa</button>
+            <button class="tab-btn" onclick="switchTab('fotosapp')">FotosApp</button>
+        </div>
 
-    <!-- Galería Estilo Grid / Masonry Profesional -->
-    <main id="gallery-container" class="gallery-grid">
-        <!-- Contenido dinámico -->
+        <!-- Secciones / Contenido de las pestañas -->
+        <!-- NOTA: Reemplaza las URLs de las imágenes con las rutas de tus fotos o enlaces directos -->
+        
+        <section id="invitados" class="tab-content active">
+            <h2>Invitados</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Boda Invitados 1">
+                </div>
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Boda Invitados 2">
+                </div>
+                <!-- Añade más elementos aquí -->
+            </div>
+        </section>
+
+        <section id="fotomaton" class="tab-content">
+            <h2>Fotomatón</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?auto=format&fit=crop&w=800&q=80" alt="Fotomatón 1">
+                </div>
+            </div>
+        </section>
+
+        <section id="fotografa" class="tab-content">
+            <h2>Fotógrafa Oficial</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Fotógrafa 1">
+                </div>
+            </div>
+        </section>
+
+        <section id="fotosapp" class="tab-content">
+            <h2>FotosApp</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(this)">
+                    <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=800&q=80" alt="FotosApp 1">
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- Pantalla de Carga / Spinner inicial -->
-    <div id="loader" class="loader-container">
-        <div class="spinner"></div>
-        <p>Cargando galería...</p>
+    <!-- Modal Lightbox para ampliar imagen -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close">&times;</span>
+        <img id="lightbox-img" src="" alt="Imagen ampliada">
     </div>
 
-    <!-- Modal de Visualización a Alta Calidad (Lightbox) -->
-    <div id="media-modal" class="modal">
-        <button class="close-modal">&times;</button>
-        <div class="modal-content-wrapper" id="modal-content">
-            <!-- Imagen/Vídeo HD -->
-        </div>
-        <div class="modal-footer">
-            <span id="modal-counter"></span>
-            <a id="modal-download" class="btn-download-hd" target="_blank" download>Descargar original sin pérdida</a>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
