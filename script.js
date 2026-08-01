@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbyyy1eotg0CjxlreUS53LMI991MOfjVlj7yzxyOIGPkDqVyjqu5NU82UPyhbMoqneLU0A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwatSYVeAGjgO7Z1iTPO5ySN5_SRHxaGJsRVZ4bnDlCExQ6FxznEb8GEHE1-XvIoIS3KQ/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchImages();
@@ -32,9 +32,13 @@ function renderCategory(gridId, photos) {
     photos.forEach(photo => {
         const item = document.createElement('div');
         item.className = 'gallery-item';
+        
+        // Guardamos el ID en el elemento para usarlo al hacer clic
+        item.dataset.photoId = photo.id;
         item.onclick = function() { openLightbox(this); };
 
         const img = document.createElement('img');
+        // Miniatura de carga rápida con =w600
         img.src = `https://lh3.googleusercontent.com/d/${photo.id}=w600`;
         img.alt = photo.name;
         img.loading = 'lazy';
@@ -58,13 +62,27 @@ function switchTab(tabId, event) {
 function openLightbox(element) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-    const img = element.querySelector('img');
+    const lightboxDownload = document.getElementById('lightbox-download');
+    
+    const photoId = element.dataset.photoId;
+
+    // Se muestra una versión de alta calidad pero fluida en el visor (=w1600)
+    lightboxImg.src = `https://lh3.googleusercontent.com/d/${photoId}=w1600`;
+    
+    // Enlace directo de descarga en tamaño original puro de Google Drive
+    lightboxDownload.href = `https://drive.google.com/uc?export=download&id=${photoId}`;
 
     lightbox.style.display = 'flex';
-    lightboxImg.src = img.src;
 }
 
 function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
     lightbox.style.display = 'none';
 }
+
+// Cerrar lightbox haciendo clic fuera de la imagen
+document.getElementById('lightbox').addEventListener('click', function(event) {
+    if (event.target === this) {
+        closeLightbox();
+    }
+});
