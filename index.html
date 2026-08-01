@@ -80,13 +80,18 @@
         </section>
     </main>
 
-    <!-- Modal Lightbox con controles de Slideshow -->
+    <!-- Modal Lightbox independiente y con controles completos -->
     <div id="lightbox" class="lightbox">
         <span class="close" onclick="closeLightbox()">&times;</span>
+        
+        <!-- Botones laterales para pasar fotos manualmente -->
+        <button class="nav-arrow prev-arrow" onclick="prevImage()">&#10094;</button>
+        <button class="nav-arrow next-arrow" onclick="nextImage()">&#10095;</button>
+
         <div class="lightbox-content" onclick="event.stopPropagation()">
             <img id="lightbox-img" src="" alt="Imagen ampliada">
             <div class="lightbox-footer">
-                <button id="slideshow-toggle" class="lightbox-control-btn" onclick="toggleSlideshowPlay()">⏸ Pausa</button>
+                <button id="slideshow-toggle" class="lightbox-control-btn" onclick="toggleSlideshowPlay()">▶ Play Auto</button>
                 <a id="lightbox-download" href="" target="_blank" class="lightbox-download-btn">Descargar tamaño original</a>
             </div>
         </div>
