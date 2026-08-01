@@ -1,5 +1,11 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbyyy1eotg0CjxlreUS53LMI991MOfjVlj7yzxyOIGPkDqVyjqu5NU82UPyhbMoqneLU0A/exec";
 
+
+let currentGalleryPhotos = [];
+let currentIndex = 0;
+let slideshowInterval = null;
+let isPlaying = false;
+
 document.addEventListener("DOMContentLoaded", () => {
     fetchImages();
 });
@@ -8,6 +14,8 @@ async function fetchImages() {
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
+
+        window.galleryData = data; // Guardamos los datos globalmente para el slideshow
 
         renderCategory('grid-invitados', data.invitados);
         renderCategory('grid-fotomaton', data.fotomaton);
@@ -29,16 +37,19 @@ function renderCategory(gridId, photos) {
     }
 
     grid.innerHTML = "";
-    photos.forEach(photo => {
+    photos.forEach((photo, index) => {
         const item = document.createElement('div');
         item.className = 'gallery-item';
         
-        // Guardamos el ID en el elemento para usarlo al hacer clic
-        item.dataset.photoId = photo.id;
-        item.onclick = function() { openLightbox(this); };
+        item.onclick = function() { 
+            // Determinamos a qué categoría pertenece según el gridId
+            let catKey = gridId.replace('grid-', '');
+            currentGalleryPhotos = window.galleryData[catKey];
+            currentIndex = index;
+            openLightbox();
+        };
 
         const img = document.createElement('img');
-        // Miniatura de carga rápida con =w600
         img.src = `https://lh3.googleusercontent.com/d/${photo.id}=w600`;
         img.alt = photo.name;
         img.loading = 'lazy';
@@ -49,6 +60,7 @@ function renderCategory(gridId, photos) {
 }
 
 function switchTab(tabId, event) {
+    stopSlideshow();
     const contents = document.querySelectorAll('.tab-content');
     contents.forEach(content => content.classList.remove('active'));
 
@@ -59,25 +71,62 @@ function switchTab(tabId, event) {
     event.currentTarget.classList.add('active');
 }
 
-function openLightbox(element) {
-    const lightbox = document.getElementById('lightbox');
+function openLightbox() {
+    updateLightboxImage();
+    document.getElementById('lightbox').style.display = 'flex';
+}
+
+function updateLightboxImage() {
+    const photo = currentGalleryPhotos[currentIndex];
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxDownload = document.getElementById('lightbox-download');
-    
-    const photoId = element.dataset.photoId;
 
-    // Se muestra una versión de alta calidad pero fluida en el visor (=w1600)
-    lightboxImg.src = `https://lh3.googleusercontent.com/d/${photoId}=w1600`;
-    
-    // Enlace directo de descarga en tamaño original puro de Google Drive
-    lightboxDownload.href = `https://drive.google.com/uc?export=download&id=${photoId}`;
-
-    lightbox.style.display = 'flex';
+    lightboxImg.src = `https://lh3.googleusercontent.com/d/${photo.id}=w1600`;
+    lightboxDownload.href = `https://drive.google.com/uc?export=download&id=${photo.id}`;
 }
 
 function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    lightbox.style.display = 'none';
+    stopSlideshow();
+    document.getElementById('lightbox').style.display = 'none';
+}
+
+// Funciones del Slideshow
+function startSlideshow(categoryKey) {
+    if (!window.galleryData || !window.galleryData[categoryKey] || window.galleryData[categoryKey].length === 0) return;
+    
+    currentGalleryPhotos = window.galleryData[categoryKey];
+    currentIndex = 0;
+    openLightbox();
+    
+    isPlaying = true;
+    document.getElementById('slideshow-toggle').innerText = "⏸ Pausa";
+    
+    if (slideshowInterval) clearInterval(slideshowInterval);
+    slideshowInterval = setInterval(() => {
+        currentIndex = (currentIndex + 1) % currentGalleryPhotos.length;
+        updateLightboxImage();
+    }, 3000); // Cambia de foto cada 3 segundos
+}
+
+function toggleSlideshowPlay() {
+    if (isPlaying) {
+        clearInterval(slideshowInterval);
+        isPlaying = false;
+        document.getElementById('slideshow-toggle').innerText = "▶ Reproducir";
+    } else {
+        isPlaying = true;
+        document.getElementById('slideshow-toggle').innerText = "⏸ Pausa";
+        if (slideshowInterval) clearInterval(slideshowInterval);
+        slideshowInterval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % currentGalleryPhotos.length;
+            updateLightboxImage();
+        }, 3000);
+    }
+}
+
+function stopSlideshow() {
+    if (slideshowInterval) clearInterval(slideshowInterval);
+    isPlaying = false;
 }
 
 // Cerrar lightbox haciendo clic fuera de la imagen
