@@ -1,11 +1,12 @@
 const API_URL = "https://script.google.com/macros/s/AKfycbyyy1eotg0CjxlreUS53LMI991MOfjVlj7yzxyOIGPkDqVyjqu5NU82UPyhbMoqneLU0A/exec";
 
+
 let currentGalleryPhotos = [];
 let currentIndex = 0;
 let slideshowInterval = null;
 let isPlaying = false;
 
-// Variables para detectar gestos táctiles (Swipe en móviles)
+// Variables para gestos táctiles (Swipe en móviles)
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -49,7 +50,7 @@ function renderCategory(gridId, photos) {
             let catKey = gridId.replace('grid-', '');
             currentGalleryPhotos = window.galleryData[catKey];
             currentIndex = index;
-            stopSlideshow(); // Se abre independiente sin autoplay
+            stopSlideshow(); // Apertura independiente
             openLightbox();
         };
 
@@ -84,11 +85,36 @@ function updateLightboxImage() {
     if (!currentGalleryPhotos || currentGalleryPhotos.length === 0) return;
     const photo = currentGalleryPhotos[currentIndex];
     const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxDownload = document.getElementById('lightbox-download');
 
-    // Fluidez: usamos =w1200 para que cargue rápido al ampliar, y descarga original intacta
+    // Visualización fluida con compresión intermedia (=w1200)
     lightboxImg.src = `https://lh3.googleusercontent.com/d/${photo.id}=w1200`;
-    lightboxDownload.href = `https://drive.google.com/uc?export=download&id=${photo.id}`;
+}
+
+// Descarga directa a tamaño original forzando guardado en galería/dispositivo
+async function downloadOriginalPhoto() {
+    if (!currentGalleryPhotos || currentGalleryPhotos.length === 0) return;
+    const photo = currentGalleryPhotos[currentIndex];
+    
+    // Enlace de descarga directa oficial de Google Drive
+    const downloadUrl = `https://drive.google.com/uc?export=download&id=${photo.id}`;
+
+    try {
+        // Forzamos descarga limpia mediante fetch y blob para que vaya directo al dispositivo/galería
+        const response = await fetch(downloadUrl);
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = photo.name || 'foto-boda.jpg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(blobUrl);
+    } catch (e) {
+        // Fallback por si el navegador bloquea el blob de seguridad
+        window.open(downloadUrl, '_blank');
+    }
 }
 
 function closeLightbox() {
@@ -109,7 +135,7 @@ function prevImage() {
     updateLightboxImage();
 }
 
-// Funciones del Slideshow automático
+// Controles de la Presentación Automática
 function startSlideshow(categoryKey) {
     if (!window.galleryData || !window.galleryData[categoryKey] || window.galleryData[categoryKey].length === 0) return;
     
@@ -118,7 +144,7 @@ function startSlideshow(categoryKey) {
     openLightbox();
     
     isPlaying = true;
-    document.getElementById('slideshow-toggle').innerText = "⏸ Pausa Auto";
+    document.getElementById('slideshow-toggle').innerText = "⏸ Pausa";
     
     if (slideshowInterval) clearInterval(slideshowInterval);
     slideshowInterval = setInterval(() => {
@@ -131,10 +157,10 @@ function toggleSlideshowPlay() {
     if (isPlaying) {
         clearInterval(slideshowInterval);
         isPlaying = false;
-        document.getElementById('slideshow-toggle').innerText = "▶ Play Auto";
+        document.getElementById('slideshow-toggle').innerText = "▶ Reproducción automática";
     } else {
         isPlaying = true;
-        document.getElementById('slideshow-toggle').innerText = "⏸ Pausa Auto";
+        document.getElementById('slideshow-toggle').innerText = "⏸ Pausa";
         if (slideshowInterval) clearInterval(slideshowInterval);
         slideshowInterval = setInterval(() => {
             currentIndex = (currentIndex + 1) % currentGalleryPhotos.length;
@@ -147,10 +173,10 @@ function stopSlideshow() {
     if (slideshowInterval) clearInterval(slideshowInterval);
     isPlaying = false;
     const toggleBtn = document.getElementById('slideshow-toggle');
-    if (toggleBtn) toggleBtn.innerText = "▶ Play Auto";
+    if (toggleBtn) toggleBtn.innerText = "▶ Reproducción automática";
 }
 
-// Soporte para gestos táctiles (Swipe en móviles para cambiar de foto)
+// Gestos táctiles (Swipe en móviles para pasar fotos deslizando)
 function setupSwipeGestures() {
     const lightbox = document.getElementById('lightbox');
 
@@ -165,18 +191,16 @@ function setupSwipeGestures() {
 }
 
 function handleSwipe() {
-    const threshold = 50; // Mínimo de píxeles de desplazamiento para considerarse swipe
+    const threshold = 50; // Mínimo de píxeles para activar el gesto
     if (touchEndX < touchStartX - threshold) {
-        // Deslizar a la izquierda -> Siguiente foto
-        nextImage();
+        nextImage(); // Deslizar izquierda -> Siguiente
     }
     if (touchEndX > touchStartX + threshold) {
-        // Deslizar a la derecha -> Foto anterior
-        prevImage();
+        prevImage(); // Deslizar derecha -> Anterior
     }
 }
 
-// Cerrar lightbox haciendo clic en el fondo oscuro
+// Cerrar lightbox haciendo clic en el fondo
 document.getElementById('lightbox').addEventListener('click', function(event) {
     if (event.target === this) {
         closeLightbox();
