@@ -8,7 +8,6 @@
 </head>
 <body>
 
-    <!-- Cabecera con imagen de fondo (header.jpg) -->
     <header class="hero">
         <div class="hero-bg" style="background-image: url('header.jpg');"></div>
         <div class="hero-overlay"></div>
@@ -21,68 +20,55 @@
     <main class="container">
         <!-- Pestañas de navegación -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('invitados')">Invitados</button>
-            <button class="tab-btn" onclick="switchTab('fotomaton')">Fotomatón</button>
-            <button class="tab-btn" onclick="switchTab('fotografa')">Fotógrafa</button>
-            <button class="tab-btn" onclick="switchTab('fotosapp')">FotosApp</button>
+            <button class="tab-btn active" onclick="switchTab('invitados', event)">Invitados</button>
+            <button class="tab-btn" onclick="switchTab('fotomaton', event)">Fotomatón</button>
+            <button class="tab-btn" onclick="switchTab('fotografa', event)">Fotógrafa</button>
+            <button class="tab-btn" onclick="switchTab('fotosapp', event)">FotosApp</button>
         </div>
 
-        <!-- Secciones / Contenido de las pestañas -->
-        
-        <!-- Pestaña 1: Invitados -->
+        <!-- Secciones dinámicas -->
         <section id="invitados" class="tab-content active">
             <div class="tab-header-flex">
                 <h2>Invitados</h2>
                 <a href="https://drive.google.com/drive/folders/1UW3HhGBu4iJ67Bejlr5Q7T30X8Jvzo3h" target="_blank" class="download-btn">Descargar todas (Drive)</a>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item" onclick="openLightbox(this)">
-                    <img src="https://lh3.googleusercontent.com/d/1FqfWkqI71zRTqC4HkKRYWE39hkDtLecn=w600" alt="Invitados 1">
-                </div>
+            <div class="gallery-grid" id="grid-invitados">
+                <p class="loading">Cargando fotos...</p>
             </div>
         </section>
 
-        <!-- Pestaña 2: Fotomatón -->
         <section id="fotomaton" class="tab-content">
             <div class="tab-header-flex">
                 <h2>Fotomatón</h2>
                 <a href="https://drive.google.com/drive/folders/1Zm20MEkSg_PWWxPVGPqjP7LG-MXNrGpK" target="_blank" class="download-btn">Descargar todas (Drive)</a>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item" onclick="openLightbox(this)">
-                    <img src="https://lh3.googleusercontent.com/d/1FqfWkqI71zRTqC4HkKRYWE39hkDtLecn=w600" alt="Fotomatón 1">
-                </div>
+            <div class="gallery-grid" id="grid-fotomaton">
+                <p class="loading">Cargando fotos...</p>
             </div>
         </section>
 
-        <!-- Pestaña 3: Fotógrafa -->
         <section id="fotografa" class="tab-content">
             <div class="tab-header-flex">
                 <h2>Fotógrafa Oficial</h2>
                 <a href="https://drive.google.com/drive/folders/1V6edlfUDhA_PsBSIIXPqHvfwwr4003cB" target="_blank" class="download-btn">Descargar todas (Drive)</a>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item" onclick="openLightbox(this)">
-                    <img src="https://lh3.googleusercontent.com/d/1FqfWkqI71zRTqC4HkKRYWE39hkDtLecn=w600" alt="Fotógrafa 1">
-                </div>
+            <div class="gallery-grid" id="grid-fotografa">
+                <p class="loading">Cargando fotos...</p>
             </div>
         </section>
 
-        <!-- Pestaña 4: FotosApp -->
         <section id="fotosapp" class="tab-content">
             <div class="tab-header-flex">
                 <h2>FotosApp</h2>
                 <a href="https://drive.google.com/drive/folders/1wS0e5E3ZXDIBVVBmm5_6nIAT2w_aOGlU" target="_blank" class="download-btn">Descargar todas (Drive)</a>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item" onclick="openLightbox(this)">
-                    <img src="https://lh3.googleusercontent.com/d/1FqfWkqI71zRTqC4HkKRYWE39hkDtLecn=w600" alt="FotosApp 1">
-                </div>
+            <div class="gallery-grid" id="grid-fotosapp">
+                <p class="loading">Cargando fotos...</p>
             </div>
         </section>
     </main>
 
-    <!-- Modal Lightbox para ampliar imagen -->
+    <!-- Modal Lightbox -->
     <div id="lightbox" class="lightbox" onclick="closeLightbox()">
         <span class="close">&times;</span>
         <img id="lightbox-img" src="" alt="Imagen ampliada">
