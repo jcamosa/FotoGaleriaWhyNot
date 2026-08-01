@@ -1,9 +1,9 @@
 :root {
-    --bg-color: #faf9f6; /* Tono lino / blanco cálido muy elegante */
-    --text-main: #1a1a1a;
-    --text-muted: #666666;
-    --accent: #c5a059; /* Dorado sutil / champán */
-    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    --primary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --bg-color: #f9f9f9;
+    --card-bg: #ffffff;
+    --text-color: #333333;
 }
 
 * {
@@ -13,251 +13,149 @@
 }
 
 body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg-color);
-    color: var(--text-main);
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
+    color: var(--text-color);
+    line-height: 1.6;
 }
 
-/* Cabecera */
-.wedding-header {
+.hero {
     text-align: center;
-    padding: 5rem 1rem 3rem 1rem;
-    background-color: #ffffff;
-    border-bottom: 1px solid #eee;
+    padding: 3rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
 }
 
-.wedding-header .subtitle {
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: var(--accent);
-    font-weight: 600;
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
 }
 
-.wedding-header h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.8rem;
-    font-weight: 400;
-    margin: 0.5rem 0 1.5rem 0;
-    color: var(--text-main);
+.hero p {
+    font-size: 1.1rem;
+    opacity: 0.8;
 }
 
-.btn-outline {
-    background: transparent;
-    color: var(--text-main);
-    border: 1px solid var(--text-main);
-    padding: 0.7rem 1.8rem;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: var(--transition);
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
 }
 
-.btn-outline:hover {
-    background: var(--text-main);
-    color: #ffffff;
-}
-
-/* Navegación por pestañas */
-.sections-nav {
+/* Pestañas */
+.tabs {
     display: flex;
     justify-content: center;
-    gap: 2.5rem;
-    padding: 1.5rem;
-    background: #ffffff;
-    border-bottom: 1px solid #eaeaea;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    overflow-x: auto;
+    gap: 10px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
 }
 
-.nav-btn {
-    background: none;
+.tab-btn {
+    background-color: #e0e0e0;
     border: none;
-    font-size: 0.95rem;
-    font-weight: 500;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    color: var(--text-muted);
-    padding-bottom: 4px;
-    position: relative;
-    white-space: nowrap;
-    transition: var(--transition);
+    border-radius: 30px;
+    transition: all 0.3s ease;
 }
 
-.nav-btn:hover, .nav-btn.active {
-    color: var(--text-main);
+.tab-btn:hover {
+    background-color: #d0d0d0;
 }
 
-.nav-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -19px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--accent);
+.tab-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
 }
 
-/* Galería Grid Estilo Pixpa */
+/* Contenido de pestañas */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.tab-content h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cuadrícula de fotos */
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-    padding: 2.5rem 2rem;
-    max-width: 1500px;
-    margin: 0 auto;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
 }
 
 .gallery-item {
-    position: relative;
+    background: var(--card-bg);
+    border-radius: 8px;
     overflow: hidden;
-    border-radius: 4px;
-    background: #e5e5e5;
-    aspect-ratio: 4 / 5; /* Formato vertical elegante tipo editorial */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 1 / 1; /* Cuadrados perfectos opcionales */
 }
 
-.gallery-item img, .gallery-item .video-preview {
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s;
+    transition: transform 0.3s ease;
 }
 
-/* Efecto Hover Profesional: Zoom suave */
 .gallery-item:hover img {
     transform: scale(1.05);
 }
 
-.video-badge {
-    position: absolute;
-    bottom: 12px;
-    right: 12px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    color: white;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    letter-spacing: 1px;
-}
-
-/* Loader */
-.loader-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 5rem;
-    gap: 1rem;
-    color: var(--text-muted);
-}
-
-.spinner {
-    width: 35px;
-    height: 35px;
-    border: 2px solid #e0e0e0;
-    border-top: 2px solid var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Modal / Lightbox a Alta Calidad */
-.modal {
+/* Lightbox (Ventana emergente) */
+.lightbox {
     display: none;
     position: fixed;
     z-index: 1000;
-    inset: 0;
-    background-color: rgba(15, 15, 15, 0.95);
-    backdrop-filter: blur(8px);
-    flex-direction: column;
-    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
     align-items: center;
-    padding: 2rem;
-}
-
-.modal-content-wrapper {
-    max-width: 90vw;
-    max-height: 75vh;
-    display: flex;
     justify-content: center;
-    align-items: center;
+    padding: 20px;
 }
 
-.modal-content-wrapper img, .modal-content-wrapper video {
-    max-width: 100%;
-    max-height: 75vh;
-    object-fit: contain;
-    border-radius: 2px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+.lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
 }
 
-.close-modal {
+.close {
     position: absolute;
-    top: 25px;
-    right: 35px;
-    background: none;
-    border: none;
-    color: #ffffff;
-    font-size: 2.5rem;
+    top: 20px;
+    right: 30px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
     cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-}
-
-.close-modal:hover {
-    opacity: 1;
-}
-
-.modal-footer {
-    margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-}
-
-.btn-download-hd {
-    background: #ffffff;
-    color: #1a1a1a;
-    padding: 0.6rem 1.5rem;
-    border-radius: 30px;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: background 0.2s;
-}
-
-.btn-download-hd:hover {
-    background: var(--accent);
-    color: #ffffff;
-}
-
-/* Responsive para Móviles */
-@media (max-width: 768px) {
-    .wedding-header {
-        padding: 3rem 1rem 2rem 1rem;
-    }
-    .wedding-header h1 {
-        font-size: 2rem;
-    }
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        padding: 1rem;
-    }
-    .sections-nav {
-        gap: 1.5rem;
-        padding: 1rem;
-        justify-content: flex-start;
-    }
 }
