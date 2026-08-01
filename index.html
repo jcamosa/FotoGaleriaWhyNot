@@ -30,7 +30,10 @@
         <section id="invitados" class="tab-content active">
             <div class="tab-header-flex">
                 <h2>Invitados</h2>
-                <a href="https://drive.google.com/drive/folders/1UW3HhGBu4iJ67Bejlr5Q7T30X8Jvzo3h" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                <div class="tab-actions">
+                    <button class="slideshow-btn" onclick="startSlideshow('invitados')">▶ Slideshow</button>
+                    <a href="https://drive.google.com/drive/folders/1UW3HhGBu4iJ67Bejlr5Q7T30X8Jvzo3h" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                </div>
             </div>
             <div class="gallery-grid" id="grid-invitados">
                 <p class="loading">Cargando fotos...</p>
@@ -40,7 +43,10 @@
         <section id="fotomaton" class="tab-content">
             <div class="tab-header-flex">
                 <h2>Fotomatón</h2>
-                <a href="https://drive.google.com/drive/folders/1Zm20MEkSg_PWWxPVGPqjP7LG-MXNrGpK" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                <div class="tab-actions">
+                    <button class="slideshow-btn" onclick="startSlideshow('fotomaton')">▶ Slideshow</button>
+                    <a href="https://drive.google.com/drive/folders/1Zm20MEkSg_PWWxPVGPqjP7LG-MXNrGpK" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                </div>
             </div>
             <div class="gallery-grid" id="grid-fotomaton">
                 <p class="loading">Cargando fotos...</p>
@@ -50,7 +56,10 @@
         <section id="fotografa" class="tab-content">
             <div class="tab-header-flex">
                 <h2>Fotógrafa Oficial</h2>
-                <a href="https://drive.google.com/drive/folders/1V6edlfUDhA_PsBSIIXPqHvfwwr4003cB" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                <div class="tab-actions">
+                    <button class="slideshow-btn" onclick="startSlideshow('fotografa')">▶ Slideshow</button>
+                    <a href="https://drive.google.com/drive/folders/1V6edlfUDhA_PsBSIIXPqHvfwwr4003cB" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                </div>
             </div>
             <div class="gallery-grid" id="grid-fotografa">
                 <p class="loading">Cargando fotos...</p>
@@ -60,7 +69,10 @@
         <section id="fotosapp" class="tab-content">
             <div class="tab-header-flex">
                 <h2>FotosApp</h2>
-                <a href="https://drive.google.com/drive/folders/1wS0e5E3ZXDIBVVBmm5_6nIAT2w_aOGlU" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                <div class="tab-actions">
+                    <button class="slideshow-btn" onclick="startSlideshow('fotosapp')">▶ Slideshow</button>
+                    <a href="https://drive.google.com/drive/folders/1wS0e5E3ZXDIBVVBmm5_6nIAT2w_aOGlU" target="_blank" class="download-btn">Descargar todas (Drive)</a>
+                </div>
             </div>
             <div class="gallery-grid" id="grid-fotosapp">
                 <p class="loading">Cargando fotos...</p>
@@ -68,12 +80,15 @@
         </section>
     </main>
 
-    <!-- Modal Lightbox con botón de descarga original -->
+    <!-- Modal Lightbox con controles de Slideshow -->
     <div id="lightbox" class="lightbox">
         <span class="close" onclick="closeLightbox()">&times;</span>
         <div class="lightbox-content" onclick="event.stopPropagation()">
             <img id="lightbox-img" src="" alt="Imagen ampliada">
-            <a id="lightbox-download" href="" target="_blank" class="lightbox-download-btn">Descargar tamaño original</a>
+            <div class="lightbox-footer">
+                <button id="slideshow-toggle" class="lightbox-control-btn" onclick="toggleSlideshowPlay()">⏸ Pausa</button>
+                <a id="lightbox-download" href="" target="_blank" class="lightbox-download-btn">Descargar tamaño original</a>
+            </div>
         </div>
     </div>
 
