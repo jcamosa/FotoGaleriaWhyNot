@@ -175,7 +175,7 @@ body {
     background-color: #3f51b5;
 }
 
-/* Cuadrícula adaptativa para móviles (fotos más pequeñas para evitar scroll) */
+/* Cuadrícula adaptativa para móviles (compacta para evitar scroll excesivo) */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -228,7 +228,7 @@ body {
     padding: 2rem;
 }
 
-/* Lightbox con Controles de Navegación */
+/* Lightbox */
 .lightbox {
     display: none;
     position: fixed;
@@ -292,7 +292,7 @@ body {
     background-color: #3f51b5;
 }
 
-/* Flechas de navegación izquierda/derecha */
+/* Flechas de navegación */
 .nav-arrow {
     position: absolute;
     top: 50%;
