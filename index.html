@@ -31,7 +31,7 @@
             <div class="tab-header-flex">
                 <h2>Invitados</h2>
                 <div class="tab-actions">
-                    <button class="slideshow-btn" onclick="startSlideshow('invitados')">▶ Slideshow</button>
+                    <button class="slideshow-btn" onclick="startSlideshow('invitados')">▶ Presentación</button>
                     <a href="https://drive.google.com/drive/folders/1UW3HhGBu4iJ67Bejlr5Q7T30X8Jvzo3h" target="_blank" class="download-btn">Descargar todas (Drive)</a>
                 </div>
             </div>
@@ -44,7 +44,7 @@
             <div class="tab-header-flex">
                 <h2>Fotomatón</h2>
                 <div class="tab-actions">
-                    <button class="slideshow-btn" onclick="startSlideshow('fotomaton')">▶ Slideshow</button>
+                    <button class="slideshow-btn" onclick="startSlideshow('fotomaton')">▶ Presentación</button>
                     <a href="https://drive.google.com/drive/folders/1Zm20MEkSg_PWWxPVGPqjP7LG-MXNrGpK" target="_blank" class="download-btn">Descargar todas (Drive)</a>
                 </div>
             </div>
@@ -57,7 +57,7 @@
             <div class="tab-header-flex">
                 <h2>Fotógrafa Oficial</h2>
                 <div class="tab-actions">
-                    <button class="slideshow-btn" onclick="startSlideshow('fotografa')">▶ Slideshow</button>
+                    <button class="slideshow-btn" onclick="startSlideshow('fotografa')">▶ Presentación</button>
                     <a href="https://drive.google.com/drive/folders/1V6edlfUDhA_PsBSIIXPqHvfwwr4003cB" target="_blank" class="download-btn">Descargar todas (Drive)</a>
                 </div>
             </div>
@@ -70,7 +70,7 @@
             <div class="tab-header-flex">
                 <h2>FotosApp</h2>
                 <div class="tab-actions">
-                    <button class="slideshow-btn" onclick="startSlideshow('fotosapp')">▶ Slideshow</button>
+                    <button class="slideshow-btn" onclick="startSlideshow('fotosapp')">▶ Presentación</button>
                     <a href="https://drive.google.com/drive/folders/1wS0e5E3ZXDIBVVBmm5_6nIAT2w_aOGlU" target="_blank" class="download-btn">Descargar todas (Drive)</a>
                 </div>
             </div>
@@ -80,19 +80,19 @@
         </section>
     </main>
 
-    <!-- Modal Lightbox independiente y con controles completos -->
+    <!-- Modal Lightbox -->
     <div id="lightbox" class="lightbox">
         <span class="close" onclick="closeLightbox()">&times;</span>
         
-        <!-- Botones laterales para pasar fotos manualmente -->
+        <!-- Flechas de navegación -->
         <button class="nav-arrow prev-arrow" onclick="prevImage()">&#10094;</button>
         <button class="nav-arrow next-arrow" onclick="nextImage()">&#10095;</button>
 
         <div class="lightbox-content" onclick="event.stopPropagation()">
             <img id="lightbox-img" src="" alt="Imagen ampliada">
             <div class="lightbox-footer">
-                <button id="slideshow-toggle" class="lightbox-control-btn" onclick="toggleSlideshowPlay()">▶ Play Auto</button>
-                <a id="lightbox-download" href="" target="_blank" class="lightbox-download-btn">Descargar tamaño original</a>
+                <button id="slideshow-toggle" class="lightbox-control-btn" onclick="toggleSlideshowPlay()">▶ Reproducción automática</button>
+                <button id="lightbox-download" class="lightbox-download-btn" onclick="downloadOriginalPhoto()">Descargar tamaño original</button>
             </div>
         </div>
     </div>
