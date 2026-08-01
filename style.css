@@ -1,7 +1,7 @@
 :root {
     --primary-color: #1a252c;
-    --accent-color: #d4af37; /* Tono dorado elegante, ideal para eventos */
-    --bg-color: #f7f5f0;     /* Fondo marfil suave y moderno */
+    --accent-color: #d4af37; /* Tono dorado elegante */
+    --bg-color: #f7f5f0;     /* Fondo marfil suave */
     --card-bg: #ffffff;
     --text-color: #2b2b2b;
 }
@@ -39,7 +39,7 @@ body {
     height: 100%;
     background-size: cover;
     background-position: center;
-    filter: brightness(0.8); /* Oscurece ligeramente la foto para que se lea el texto */
+    filter: brightness(0.8);
     z-index: 1;
 }
 
@@ -49,7 +49,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); /* Capa de tinte oscuro por encima de la foto */
+    background: rgba(0, 0, 0, 0.4);
     z-index: 2;
 }
 
@@ -124,19 +124,45 @@ body {
     animation: fadeIn 0.5s ease;
 }
 
-.tab-content h2 {
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    color: var(--primary-color);
-    border-bottom: 1px solid #dcd6cb;
-    padding-bottom: 0.5rem;
-    font-weight: 400;
-    letter-spacing: 1px;
-}
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* Cabecera interna de cada pestaña con botón de descarga */
+.tab-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #dcd6cb;
+    padding-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tab-header-flex h2 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 0;
+}
+
+.download-btn {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: var(--accent-color);
+    color: #fff;
 }
 
 /* Cuadrícula de fotos */
@@ -153,7 +179,7 @@ body {
     box-shadow: 0 4px 10px rgba(0,0,0,0.04);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    aspect-ratio: 4 / 3; /* Proporción rectangular elegante */
+    aspect-ratio: 4 / 3;
 }
 
 .gallery-item:hover {
