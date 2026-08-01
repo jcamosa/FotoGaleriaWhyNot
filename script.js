@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzD50PXg3w9pIdr5S3TPHYvvfHbg35dzlXZHVV9o5_-yhePnI9vyetfiMHDTQa0RaNQGA/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbyyy1eotg0CjxlreUS53LMI991MOfjVlj7yzxyOIGPkDqVyjqu5NU82UPyhbMoqneLU0A/exec";
 
 document.addEventListener("DOMContentLoaded", () => {
     fetchImages();
